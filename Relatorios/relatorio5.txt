@@ -1,0 +1,110 @@
+1)
+
+Inteiro = 4 bytes
+sizeof(b[2]) = 8 bytes
+
+short = 2 bytes
+sizeof(a[2][3]) = 2 * 2 * 3 = 12 bytes
+
+2)
+
+Código da questão:
+
+#include <stdio.h>
+
+struct X
+{
+    int a;
+    short b;
+    int c;
+} x = {0xa1a2a3a4, 0xb1b2, 0xc1c2c3c4};
+
+void dump(void *p, int n)
+{
+    unsigned char *p1 = p;
+    while (n--)
+    {
+        printf("%p - %02x\n", p1, *p1);
+        p1++;
+    }
+}
+
+int main()
+{
+
+    printf("dump de int a:\n");
+    dump(&x.a, sizeof(x.a));
+    printf("\n");
+
+    printf("dump de int b:\n");
+    dump(&x.b, sizeof(x.b));
+    printf("\n");
+
+    printf("dump de int c:\n");
+    dump(&x.c, sizeof(x.c));
+    printf("\n");
+
+    printf("Tamanho da estrutra: %d", sizeof(x.a) + sizeof(x.b) + sizeof(x.c));
+
+    return 0;
+}
+
+
+O buraco ocorre devido ao padding da estrutura:
+
+[a, a, a, a, b, b, *, *, c ,c ,c ,c] --> Os * representam os espaços em branco
+
+3.a)
+1 byte + 4 bytes + 1 byte
+
+com o padding: 12 bytes
+
+b)
+
+long: 4 bytes
+char: 1 byte + padding
+
+total = 4 + 4 = 8 bytes
+
+c)
+Basta garatir que o próximo elemento fique na posição do múltiplo do seu Tamanho
+
+int: 4 bytes
+char: 1 byte 
+
+[i, i, i, i, c1, c2, x ,x, ...] O próximo int só aparecerá na posição 8
+
+total = 8
+
+d)
+
+Basta garatir que o próximo elemento fique na posição do múltiplo do seu Tamanho
+
+[l ,l ,l ,l , c, x, x, x, c, x, x, x] O "lixo" do primeiro char ocorre devido a troca de estrutura, já que o primeiro elemento
+é um long
+total = 4 + 4 + 4 = 12
+
+e)
+Como 1 é multiplo de qualquer coisa:
+[c1 ,c2 ,c3] tanto c1, c2 ou c3 podem entrar em qualquer posição
+
+total = 3 bytes
+
+f)
+short: 2 bytes + padding
+int: 4 bytes
+char[3]: 3 bytes 
+short: 2 bytes + padding
+
+[s, s, i, i ,i, i, c, c ,c ,x, s ,s, x, x]
+total = 4 + 4 + 4 + 4 = 16
+
+g)
+
+Tamanho = 8 bytes
+
+h)
+
+Tamanho = 6 bytes
+
+

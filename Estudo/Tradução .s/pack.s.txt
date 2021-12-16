@@ -1,0 +1,25 @@
+.text
+.globl pack
+pack:
+   pushq %rbp
+   movq  %rsp, %rbp
+   subq  $48,  %rsp
+   movq  %rdi, -48(%rbp) /* px */
+   movq  $0 ,  -24(%rbp) /* acc = 0*/
+   
+while:
+   cmpq  -48(%rbp), $0
+   je  sai_while
+   addq  -48(%rbp), %rcx
+   movq  8(%rcx), %xmm0
+   movl  (%rcx), %edi
+   call foo
+   addq  %xmm0, -24(%rbp)
+   movq  16(%rcx), -48(%rbp)
+
+sai_while:
+   
+   movq -24(%rbp), %xmm0
+   leave
+   ret
+

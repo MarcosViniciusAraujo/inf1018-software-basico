@@ -1,0 +1,98 @@
+Marcos Vinicius Araujo Almeida - 1910869
+
+1)
+/*
+int novonum(void) {
+  int minhalocal;
+  printf("numero: ");
+  scanf("%d",&minhalocal);
+  return minhalocal;
+}
+*/
+
+/*
+-8(%rbp) --> minhalocal
+*/
+
+.data
+sf1: .string "numero: "
+sf2: .string "%d"
+
+.text
+.globl novonum
+novonum:
+    pushq %rbp
+    movq  %rsp, %rbp
+    subq  $16, %rsp
+    
+    movq $sf1, %rdi
+    movl $0, %eax
+    call printf
+
+    movq $sf2, %rdi
+    movl $0, %eax
+    leaq -8(%rbp), %rsi
+    call scanf
+
+    movl -8(%rbp), %eax
+    leave
+    ret
+
+
+2)
+
+/*
+int bemboba(int num)
+{
+    int local[4];
+    int *a;
+    int i;
+
+    for (i = 0, a = local; i < 4; i++)
+    {
+        *a = num;
+        a++;
+    }
+    return addl(local, 4);
+}
+*/
+
+/*
+local[4] --> 16 bytes         -32 
+int *a -->    8 bytes         -16
+int i -->     4 bytes +       -8
+-----------------------
+total ---->  28 bytes
+*/
+#Tem que dar 20
+
+.text
+.globl bemboba
+bemboba:
+    pushq %rbp
+    movq  %rsp, %rbp
+    subq  $32, %rsp
+
+    movl $0, -8(%rbp)
+    leaq -32(%rbp), %r15
+    movq %r15, -16(%rbp)
+
+for:
+    cmpl $4, -8(%rbp)
+    je saida
+
+    movq -32(%rbp), %rbx
+    movq %rbx, -16(%rbp) #não sei se está certo
+    addl  $1, -16(%rbp)
+
+    addl $1, -8(%rbp)
+    jmp for
+saida:
+
+    leaq -32(%rbp), %rdi
+    movl $4, %esi
+    call addl
+
+    leave
+    ret
+

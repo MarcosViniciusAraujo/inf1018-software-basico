@@ -1,0 +1,4 @@
+Colocar a função f como parametro (problema)
+É necessário fazer um if para PARAM na função adicionaParam?
+Colocar os parametros
+Shift nos bytes

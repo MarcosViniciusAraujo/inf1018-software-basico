@@ -1,0 +1,92 @@
+1)
+Para todos os valores, possuirão seus endereços como "endereço".
+
+Para c ( ocupa 1 byte):
+--> endereço -  96
+
+Para s (ocupa 2 bytes):
+n = 16
+--> endereço - fd
+    endereço - ff
+
+Para i (ocupa 4 bytes):
+n = 16
+--> endereço - 69
+    endereço - ff
+    endereço - ff
+    endereço - ff 
+
+
+2)
+
+Para l:
+-ocupa (2 bytes)
+convertendo l para binário...
+l = 0111 1111 1111 1101
+
+invertendo os numeros e somando 1...
+
+l = 1000 0000 0000 0011
+
+convertendo para hexadecimal...
+
+l = 8003
+
+dump de l:
+endereço - 03
+endereço - 80
+
+Para k:
+
+convertendo para binário...
+
+k = 1000 0000 0000 0011
+
+convertendo para hexadecimal...
+
+k = 8003
+
+dump de k:
+endereço - 03
+endereço - 80
+
+3)int xbyte (packed_t word, int bytenum) {
+  word = word >> bytenum*8;
+  char c = word & 1;
+  return c;
+}
+
+4)
+Programa 1:
+Suponha que x é um número negativo. Será feita em passos a operção
+inversa para achar um número negativo. O resultado dessa aritmética 
+será x ainda positivo
+
+convertendo x para binário...
+x = 1111 1111 1111 1111 1111 1111 1111 1111
+
+subtraindo 1 de x...
+
+x = 1111 1111 1111 1111 1111 1111 1111 1110
+
+invertendo x...
+
+x = 0000 0000 0000 0000 0000 0000 0000 0001
+
+colocando x para base 10 e adicionando o sinal...
+
+x = -1
+
+obs: se trocarmos %d --> %u, o programa resulta em um numero unsigned
+
+Programa 2:
+A partir do momento que é colocado "unsigned" antes da definição de x,
+esse número não pode mais ser assumido como negativo.
+Quando é utilizado %u ao invés de %d, o console mostra o resultado de x
+unsigned dessa maneira:
+
+x=4294967295, y=2
+
+Logo, x não é menor que y
+
+
